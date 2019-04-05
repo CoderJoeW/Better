@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/preloader.unity
+    guid: aa9ae8ca94759684195f246ab1283e43
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 0e01e08cbf46fea43bfcac9ec7c91186
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Snake.unity
+    guid: b9612a722122bde49b8955bfa8b1672a
+  m_configObjects: {}

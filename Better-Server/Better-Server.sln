@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Better-Server", "Better-Server.csproj", "{116D8220-57C0-420B-B7F0-FE982BFCD7ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{116D8220-57C0-420B-B7F0-FE982BFCD7ED}.Debug|x86.ActiveCfg = Debug|x86
+		{116D8220-57C0-420B-B7F0-FE982BFCD7ED}.Debug|x86.Build.0 = Debug|x86
+		{116D8220-57C0-420B-B7F0-FE982BFCD7ED}.Release|x86.ActiveCfg = Release|x86
+		{116D8220-57C0-420B-B7F0-FE982BFCD7ED}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {220965D9-43EA-4B07-9A21-E655437D6D22}
+	EndGlobalSection
+EndGlobal

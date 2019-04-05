@@ -1,0 +1,10 @@
+C:\Users\netty\Desktop\Unity Server Framework\Server\obj\x86\Debug\USl Server.csprojAssemblyReference.cache
+C:\Users\netty\Desktop\Unity Server Framework\Server\obj\x86\Debug\USl Server.csproj.CoreCompileInputs.cache
+C:\Users\netty\Desktop\Unity Server Framework\Server\bin\Debug\ConsoleApplication.exe.config
+C:\Users\netty\Desktop\Unity Server Framework\Server\bin\Debug\ConsoleApplication.exe
+C:\Users\netty\Desktop\Unity Server Framework\Server\bin\Debug\ConsoleApplication.pdb
+C:\Users\netty\Desktop\Unity Server Framework\Server\bin\Debug\KG Buffer.dll
+C:\Users\netty\Desktop\Unity Server Framework\Server\bin\Debug\MySql.Data.dll
+C:\Users\netty\Desktop\Unity Server Framework\Server\obj\x86\Debug\USl Server.csproj.CopyComplete
+C:\Users\netty\Desktop\Unity Server Framework\Server\obj\x86\Debug\ConsoleApplication.exe
+C:\Users\netty\Desktop\Unity Server Framework\Server\obj\x86\Debug\ConsoleApplication.pdb
