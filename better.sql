@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2019 at 11:07 PM
+-- Generation Time: Apr 11, 2019 at 12:01 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.0
 
@@ -32,9 +32,22 @@ CREATE TABLE `que` (
   `id` int(254) NOT NULL,
   `player1_uid` text NOT NULL,
   `player2_uid` text NOT NULL,
-  `player1_score` int(254) DEFAULT NULL,
-  `player2_score` int(254) DEFAULT NULL
+  `player1_score` int(254) NOT NULL,
+  `player2_score` int(254) NOT NULL,
+  `bet` int(254) NOT NULL,
+  `game` text NOT NULL,
+  `player1_conID` int(254) NOT NULL,
+  `player2_conID` int(254) NOT NULL,
+  `player1_gameOver` tinyint(1) NOT NULL,
+  `player2_gameOver` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `que`
+--
+
+INSERT INTO `que` (`id`, `player1_uid`, `player2_uid`, `player1_score`, `player2_score`, `bet`, `game`, `player1_conID`, `player2_conID`, `player1_gameOver`, `player2_gameOver`) VALUES
+(7, '5b9a82a2d8430f1dddfe4085ba755af6b6873bbb', '5b9a82a2d8430f1dddfe4085ba755af6b6873bbb', 0, 0, 2, 'Snake', 1, 2, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -80,7 +93,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `que`
 --
 ALTER TABLE `que`
-  MODIFY `id` int(254) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
