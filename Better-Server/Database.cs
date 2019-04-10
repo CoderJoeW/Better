@@ -13,6 +13,18 @@ public class Lobby {
     public string Game { set; get; }
 }
 
+public class MatchInfo {
+    public int Player1ID { set; get; }
+    public string Player1UID { set; get; }
+
+    public int Player2ID { set; get; }
+    public string Player2UID { set; get; }
+
+    public int Bet { set; get; }
+
+    public string Winner { set; get; }
+}
+
 namespace Better_Server {
     class Database {
         public static string GetIdentifier(string identifier) {
@@ -47,8 +59,8 @@ namespace Better_Server {
             }
         }
 
-        public static void CreateLobby(string uid,int bet,string game) {
-            string query = "INSERT INTO que SET player1_uid='" + uid + "' , bet=" + bet + " , game='" + game + "'";
+        public static void CreateLobby(string uid,int bet,string game,int conID) {
+            string query = "INSERT INTO que SET player1_uid='" + uid + "' , bet=" + bet + " , game='" + game + "' , player1_conID=" + conID;
 
             MySqlCommand cmd = new MySqlCommand(query, MySQL.mySQLSettings.connection);
 
@@ -58,6 +70,167 @@ namespace Better_Server {
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public static void JoinLobby(int matchID,string uid,int conID) {
+            string query = "UPDATE que SET player2_uid='" + uid + "' , player2_conID=" + conID + " WHERE id=" + matchID;
+
+            MySqlCommand cmd = new MySqlCommand(query, MySQL.mySQLSettings.connection);
+
+            try {
+                cmd.ExecuteNonQuery();
+            }catch(Exception e) {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public static void UpdateGameScore(int matchID,string player,int score) {
+            string query = "";
+
+            if(player == "Player1") {
+                query = "UPDATE que SET player1_score=" + score + " , player1_gameOver=1 WHERE id=" + matchID;
+            }else if(player == "Player2") {
+                query = "UPDATE que SET player2_score=" + score + " , player2_gameOver=1 WHERE id=" + matchID;
+            }
+
+            MySqlCommand cmd = new MySqlCommand(query, MySQL.mySQLSettings.connection);
+
+            try {
+                cmd.ExecuteNonQuery();
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public static bool IsMatchOver(int matchID) {
+            string query = "SELECT player1_gameOver,player2_gameOver FROM que WHERE id=" + matchID;
+
+            MySqlCommand cmd = new MySqlCommand(query, MySQL.mySQLSettings.connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            bool player1_gameOver = false;
+            bool player2_gameOver = false;
+
+            while (reader.Read()) {
+                player1_gameOver = (bool)reader["player1_gameOver"];
+                player2_gameOver = (bool)reader["player2_gameOver"];
+            }
+
+            reader.Close();
+
+            if(player1_gameOver && player2_gameOver) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public static string GetMatchInfo(int matchID) {
+            string query = "SELECT * FROM que WHERE id=" + matchID;
+
+            MySqlCommand cmd = new MySqlCommand(query, MySQL.mySQLSettings.connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            string player1_uid = "";
+            string player2_uid = "";
+
+            int player1_conID = 0;
+            int player2_conID = 0;
+
+            int player1_score = 0;
+            int player2_score = 0;
+
+            int bet = 0;
+
+            while (reader.Read()) {
+                player1_uid = (string)reader["player1_uid"];
+                player2_uid = (string)reader["player2_uid"];
+
+                player1_conID = (int)reader["player1_conID"];
+                player2_conID = (int)reader["player2_conID"];
+
+                player1_score = (int)reader["player1_score"];
+                player2_score = (int)reader["player2_score"];
+
+                bet = (int)reader["bet"];
+            }
+
+            reader.Close();
+
+            MatchInfo matchInfo = new MatchInfo();
+            matchInfo.Player1UID = player1_uid;
+            matchInfo.Player2UID = player2_uid;
+            matchInfo.Player1ID = player1_conID;
+            matchInfo.Player2ID = player2_conID;
+            matchInfo.Bet = bet;
+
+            if(player1_score > player2_score) {
+                //Player 1 wins
+                matchInfo.Winner = "Player1";
+            }else if(player2_score > player1_score) {
+                //Player 2 wins
+                matchInfo.Winner = "Player2";
+            } else {
+                //Tie game
+                matchInfo.Winner = "Draw";
+            }
+
+            string jsonPacket = JsonConvert.SerializeObject(matchInfo);
+
+            return jsonPacket;
+        }
+
+        public static int GetPlayer1ID(int matchID) {
+            string query = "SELECT player1_conID FROM que WHERE id=" + matchID;
+
+            MySqlCommand cmd = new MySqlCommand(query, MySQL.mySQLSettings.connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            int id = 0;
+
+            while (reader.Read()) {
+                id = (int)reader["player1_conID"];
+            }
+
+            reader.Close();
+
+            return id;
+        }
+
+        public static int GetPlayer2ID(int matchID) {
+            string query = "SELECT player2_conID FROM que WHERE id=" + matchID;
+
+            MySqlCommand cmd = new MySqlCommand(query, MySQL.mySQLSettings.connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            int id = 0;
+
+            while (reader.Read()) {
+                id = (int)reader["player2_conID"];
+            }
+
+            reader.Close();
+
+            return id;
+        }
+
+        public static string GetMatchGame(int matchID) {
+            string query = "SELECT game FROM que WHERE id=" + matchID;
+
+            MySqlCommand cmd = new MySqlCommand(query, MySQL.mySQLSettings.connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            string game = "";
+
+            while (reader.Read()) {
+                game = (string)reader["game"];
+            }
+
+            reader.Close();
+
+            return game;
         }
 
         public static string GetLobbyList() {

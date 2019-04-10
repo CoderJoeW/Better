@@ -1,1 +1,4 @@
-sceneSetups: []
+sceneSetups:
+- path: Assets/Scenes/preloader.unity
+  isLoaded: 1
+  isActive: 1

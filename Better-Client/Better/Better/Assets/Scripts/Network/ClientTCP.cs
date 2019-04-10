@@ -78,8 +78,32 @@ public class ClientTCP {
     public static void PACKET_GameOver(int score) {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteInteger((int)ClientPackages.CGameOver);
-        buffer.WriteString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
+        buffer.WriteInteger(GameManager.Instance.matchID);
+        buffer.WriteString(GameManager.Instance.player);
         buffer.WriteInteger(score);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKET_CreateLobby(int bet,string game) {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CCreateLobby);
+        buffer.WriteString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
+        buffer.WriteInteger(bet);
+        buffer.WriteString(game);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKET_RefreshLobbyList() {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CRefreshLobbyList);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKET_JoinLobby(int lobbyID) {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CJoinLobby);
+        buffer.WriteString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
+        buffer.WriteInteger(lobbyID);
         SendData(buffer.ToArray());
     }
 }

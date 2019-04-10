@@ -3,6 +3,7 @@
     SAccountExist,
     SLobbyCreated,
     SSendLobbyList,
+    SPlayerJoined,
 }
 
 public enum ClientPackages {

@@ -1,6 +1,9 @@
 ﻿public enum ServerPackages {
     SWelcomeMsg = 1,
     SAccountExist,
+    SLobbyCreated,
+    SSendLobbyList,
+    SPlayerJoined,
 }
 
 public enum ClientPackages {
@@ -8,4 +11,7 @@ public enum ClientPackages {
     CCheckForAccount,
     CCreateAccount,
     CGameOver,
+    CCreateLobby,
+    CRefreshLobbyList,
+    CJoinLobby,
 }

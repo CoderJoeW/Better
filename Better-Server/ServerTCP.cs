@@ -103,5 +103,37 @@ namespace Better_Server {
 
             SendDataTo(connectionID, buffer.ToArray());
         }
+
+        public static void PACKET_PlayerJoined(int player1_conID,int player2_conID,int matchID,string game) {
+            ByteBuffer buffer1 = new ByteBuffer();
+
+            //Add package id
+            buffer1.WriteInteger((int)ServerPackages.SPlayerJoined);
+
+            //Send info
+            buffer1.WriteInteger(matchID);
+            buffer1.WriteString(game);
+            buffer1.WriteString("Player1");
+
+            SendDataTo(player1_conID,buffer1.ToArray());
+
+            ByteBuffer buffer2 = new ByteBuffer();
+
+            //Add package id
+            buffer2.WriteInteger((int)ServerPackages.SPlayerJoined);
+
+            //Send info
+            buffer2.WriteInteger(matchID);
+            buffer2.WriteString(game);
+            buffer2.WriteString("Player2");
+
+            SendDataTo(player2_conID, buffer2.ToArray());
+        }
+
+        public static void PACKET_MatchOver(int matchID) {
+            
+
+
+        }
     }
 }

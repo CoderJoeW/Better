@@ -14,6 +14,9 @@ public class ClientHandleData {
 		packetListener = new Dictionary<int, Packet_>();
 		packetListener.Add ((int)ServerPackages.SWelcomeMsg,HandleWelcomeMsg);
         packetListener.Add((int)ServerPackages.SAccountExist, HandleAccountExist);
+        packetListener.Add((int)ServerPackages.SLobbyCreated, HandleLobbyCreated);
+        packetListener.Add((int)ServerPackages.SSendLobbyList, HandleSendLobbyList);
+        packetListener.Add((int)ServerPackages.SPlayerJoined, HandlePlayerJoined);
 	}
 
 	public static void HandleData(byte[] data) {
@@ -110,5 +113,36 @@ public class ClientHandleData {
             Debug.Log("Account did not exist sending request to create account");
             ClientTCP.PACKET_CreateAccount();
         }
+    }
+
+    private static void HandleLobbyCreated(byte[] data) {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteBytes(data);
+
+        int packageID = buffer.ReadInteger();
+        Debug.Log("Lobby has been created");
+        LobbyUIManager.Instance.ExitCreateLobbyPopup();
+    }
+
+    private static void HandleSendLobbyList(byte[] data) {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteBytes(data);
+
+        int packageID = buffer.ReadInteger();
+        string lobbyList = buffer.ReadString();
+
+        LobbyListController.Instance.SetJsonPacket(lobbyList);
+    }
+
+    private static void HandlePlayerJoined(byte[] data) {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteBytes(data);
+
+        int packageID = buffer.ReadInteger();
+        int matchID = buffer.ReadInteger();
+        string game = buffer.ReadString();
+        string player = buffer.ReadString();
+
+        GameManager.Instance.StartMatch(matchID, game,player);
     }
 }

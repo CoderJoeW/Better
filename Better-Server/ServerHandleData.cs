@@ -128,8 +128,15 @@ namespace Better_Server {
             buffer.WriteBytes(data);
 
             int packageID = buffer.ReadInteger();
-            string uid = buffer.ReadString();
+            int matchID = buffer.ReadInteger();
+            string player = buffer.ReadString();
             int score = buffer.ReadInteger();
+
+            Database.UpdateGameScore(matchID, player, score);
+
+            if (Database.IsMatchOver(matchID)) {
+                ServerTCP.PACKET_MatchOver(matchID);
+            }
 
             Console.WriteLine("HandleGameOver has not been fully implemented");
         }
@@ -143,7 +150,7 @@ namespace Better_Server {
             int bet = buffer.ReadInteger();
             string game = buffer.ReadString();
 
-            Database.CreateLobby(uid, bet, game);
+            Database.CreateLobby(uid, bet, game,connectionID);
 
             ServerTCP.PACKET_LobbyCreated(connectionID);
         }
@@ -171,7 +178,13 @@ namespace Better_Server {
 
             Console.WriteLine("Player: " + uid + " Is attempting to join match ID: " + matchID);
 
-            Console.WriteLine("HandleJoinLobby has not been fully implemented");
+            Database.JoinLobby(matchID, uid, connectionID);
+
+            int player1_id = Database.GetPlayer1ID(matchID);
+            int player2_id = Database.GetPlayer2ID(matchID);
+            string game = Database.GetMatchGame(matchID);
+
+            ServerTCP.PACKET_PlayerJoined(player1_id, player2_id, matchID,game);
         }
     }
 }
