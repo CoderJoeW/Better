@@ -82,5 +82,26 @@ namespace Better_Server {
 
             SendDataTo(connectionID, buffer.ToArray());
         }
+
+        public static void PACKET_LobbyCreated(int connectionID) {
+            ByteBuffer buffer = new ByteBuffer();
+
+            //Add package id
+            buffer.WriteInteger((int)ServerPackages.SLobbyCreated);
+
+            SendDataTo(connectionID,buffer.ToArray());
+        }
+
+        public static void PACKET_SendLobbyList(int connectionID,string data) {
+            ByteBuffer buffer = new ByteBuffer();
+
+            //Add package id
+            buffer.WriteInteger((int)ServerPackages.SSendLobbyList);
+
+            //Send info
+            buffer.WriteString(data);
+
+            SendDataTo(connectionID, buffer.ToArray());
+        }
     }
 }

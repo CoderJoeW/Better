@@ -4,6 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
+
+public class Lobby {
+    public int ID { set; get; }
+    public string UID { set; get; }
+    public int Bet { set; get; }
+    public string Game { set; get; }
+}
 
 namespace Better_Server {
     class Database {
@@ -37,6 +45,43 @@ namespace Better_Server {
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public static void CreateLobby(string uid,int bet,string game) {
+            string query = "INSERT INTO que SET player1_uid='" + uid + "' , bet=" + bet + " , game='" + game + "'";
+
+            MySqlCommand cmd = new MySqlCommand(query, MySQL.mySQLSettings.connection);
+
+            try {
+                cmd.ExecuteNonQuery();
+            }catch(Exception e) {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public static string GetLobbyList() {
+            string query = "SELECT * FROM que";
+
+            MySqlCommand cmd = new MySqlCommand(query, MySQL.mySQLSettings.connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            List<Lobby> items = new List<Lobby>();
+
+            while (reader.Read()) {
+                items.Add(new Lobby {
+                    ID = (int)reader["id"],
+                    UID = (string)reader["player1_uid"],
+                    Bet = (int)reader["bet"],
+                    Game = (string)reader["game"]
+                });
+            }
+
+            reader.Close();
+
+            var jsonPacket = JsonConvert.SerializeObject(items);
+
+            return jsonPacket;
         }
     }
 }

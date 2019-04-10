@@ -8,3 +8,6 @@ C:\Users\Joseph\Documents\Development\other\Better-Server\bin\Debug\ConsoleAppli
 C:\Users\Joseph\Documents\Development\other\Better-Server\bin\Debug\KG Buffer.dll
 C:\Users\Joseph\Documents\Development\other\Better-Server\bin\Debug\MySql.Data.dll
 C:\Users\Joseph\Documents\Development\other\Better-Server\obj\x86\Debug\Better-Server.csproj.CopyComplete
+C:\Users\Joseph\Documents\Development\other\Better-Server\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Joseph\Documents\Development\other\Better-Server\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Joseph\Documents\Development\other\Better-Server\bin\Debug\Newtonsoft.Json.xml

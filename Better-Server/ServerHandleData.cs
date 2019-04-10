@@ -13,6 +13,9 @@ namespace Better_Server {
             packetListener.Add((int)ClientPackages.CCheckForAccount, HandleCheckForAccount);
             packetListener.Add((int)ClientPackages.CCreateAccount, HandleCreateAccount);
             packetListener.Add((int)ClientPackages.CGameOver, HandleGameOver);
+            packetListener.Add((int)ClientPackages.CCreateLobby, HandleCreateLobby);
+            packetListener.Add((int)ClientPackages.CRefreshLobbyList, HandleRefreshLobbyList);
+            packetListener.Add((int)ClientPackages.CJoinLobby, HandleJoinLobby);
         }
 
         public static void HandleData(int connectionID, byte[] data) {
@@ -129,6 +132,46 @@ namespace Better_Server {
             int score = buffer.ReadInteger();
 
             Console.WriteLine("HandleGameOver has not been fully implemented");
+        }
+
+        private static void HandleCreateLobby(int connectionID, byte[] data) {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteBytes(data);
+
+            int packageID = buffer.ReadInteger();
+            string uid = buffer.ReadString();
+            int bet = buffer.ReadInteger();
+            string game = buffer.ReadString();
+
+            Database.CreateLobby(uid, bet, game);
+
+            ServerTCP.PACKET_LobbyCreated(connectionID);
+        }
+
+        private static void HandleRefreshLobbyList(int connectionID,byte[] data) {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteBytes(data);
+
+            int packageID = buffer.ReadInteger();
+
+            string lobbyList = Database.GetLobbyList();
+
+            ServerTCP.PACKET_SendLobbyList(connectionID, lobbyList);
+        }
+
+        private static void HandleJoinLobby(int connectionID,byte[] data) {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteBytes(data);
+
+            int packageID = buffer.ReadInteger();
+
+            string uid = buffer.ReadString();
+
+            int matchID = buffer.ReadInteger();
+
+            Console.WriteLine("Player: " + uid + " Is attempting to join match ID: " + matchID);
+
+            Console.WriteLine("HandleJoinLobby has not been fully implemented");
         }
     }
 }
