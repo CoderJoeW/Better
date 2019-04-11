@@ -11,3 +11,16 @@ C:\Users\Joseph\Documents\Development\other\Better-Server\obj\x86\Debug\Better-S
 C:\Users\Joseph\Documents\Development\other\Better-Server\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Joseph\Documents\Development\other\Better-Server\bin\Debug\Newtonsoft.Json.pdb
 C:\Users\Joseph\Documents\Development\other\Better-Server\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Darian\Desktop\Better\Better-Server\bin\Debug\ConsoleApplication.exe.config
+C:\Users\Darian\Desktop\Better\Better-Server\bin\Debug\ConsoleApplication.exe
+C:\Users\Darian\Desktop\Better\Better-Server\bin\Debug\ConsoleApplication.pdb
+C:\Users\Darian\Desktop\Better\Better-Server\bin\Debug\KG Buffer.dll
+C:\Users\Darian\Desktop\Better\Better-Server\bin\Debug\MySql.Data.dll
+C:\Users\Darian\Desktop\Better\Better-Server\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Darian\Desktop\Better\Better-Server\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Darian\Desktop\Better\Better-Server\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Darian\Desktop\Better\Better-Server\obj\x86\Debug\Better-Server.csprojAssemblyReference.cache
+C:\Users\Darian\Desktop\Better\Better-Server\obj\x86\Debug\Better-Server.csproj.CoreCompileInputs.cache
+C:\Users\Darian\Desktop\Better\Better-Server\obj\x86\Debug\Better-Server.csproj.CopyComplete
+C:\Users\Darian\Desktop\Better\Better-Server\obj\x86\Debug\ConsoleApplication.exe
+C:\Users\Darian\Desktop\Better\Better-Server\obj\x86\Debug\ConsoleApplication.pdb

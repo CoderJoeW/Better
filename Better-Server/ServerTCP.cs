@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using Newtonsoft.Json;
 
 namespace Better_Server {
     class ServerTCP {
@@ -130,9 +131,29 @@ namespace Better_Server {
             SendDataTo(player2_conID, buffer2.ToArray());
         }
 
-        public static void PACKET_MatchOver(int matchID) {
-            
+        public static void PACKET_MatchOver(int matchID,string jsonPacket) {
+            MatchInfo matchInfo = JsonConvert.DeserializeObject<MatchInfo>(jsonPacket);
 
+            //Give money to winner
+            if(matchInfo.Winner == "Player1")
+            {
+                Database.GiveMoney(matchInfo.Player1UID, matchInfo.Bet * 2);
+                Database.SubractMoney(matchInfo.Player2UID, matchInfo.Bet);
+            }else if(matchInfo.Winner == "Player2")
+            {
+                Database.GiveMoney(matchInfo.Player2UID, matchInfo.Bet * 2);
+                Database.SubractMoney(matchInfo.Player1UID, matchInfo.Bet);
+            }
+
+            //Send both players match info
+            ByteBuffer buffer = new ByteBuffer();
+
+            //Package id
+            buffer.WriteInteger((int)ServerPackages.SMatchOver);
+            buffer.WriteString(jsonPacket);
+
+            SendDataTo(matchInfo.Player1ID, buffer.ToArray());
+            SendDataTo(matchInfo.Player2ID, buffer.ToArray());
 
         }
     }

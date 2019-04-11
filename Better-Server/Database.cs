@@ -182,6 +182,39 @@ namespace Better_Server {
             return jsonPacket;
         }
 
+        public static void GiveMoney(string uid,int amount){
+            string query = "UPDATE users SET balance=balance+" + amount + " WHERE uid='" + uid + "'";
+
+            MySqlCommand cmd = new MySqlCommand(query, MySQL.mySQLSettings.connection);
+
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public static void SubractMoney(string uid, int amount)
+        {
+            string query = "UPDATE users SET balance=balance-" + amount + " WHERE uid='" + uid + "'";
+
+            MySqlCommand cmd = new MySqlCommand(query, MySQL.mySQLSettings.connection);
+
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         public static int GetPlayer1ID(int matchID) {
             string query = "SELECT player1_conID FROM que WHERE id=" + matchID;
 

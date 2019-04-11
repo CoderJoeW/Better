@@ -4,6 +4,7 @@
     SLobbyCreated,
     SSendLobbyList,
     SPlayerJoined,
+    SMatchOver,
 }
 
 public enum ClientPackages {
