@@ -134,14 +134,20 @@ namespace Better_Server {
         public static void PACKET_MatchOver(int matchID,string jsonPacket) {
             MatchInfo matchInfo = JsonConvert.DeserializeObject<MatchInfo>(jsonPacket);
 
+            // Console.WriteLine("Player 1 score: " + matchInfo.Player1Score);
+            //Console.WriteLine("Player 2 score: " + matchInfo.Player2Score);
+
+            float commision = (matchInfo.Bet * 2) * 0.20f;
+            int winningAmount = (matchInfo.Bet * 2) - (int)commision;
+
             //Give money to winner
             if(matchInfo.Winner == "Player1")
             {
-                Database.GiveMoney(matchInfo.Player1UID, matchInfo.Bet * 2);
+                Database.GiveMoney(matchInfo.Player1UID, winningAmount);
                 Database.SubractMoney(matchInfo.Player2UID, matchInfo.Bet);
             }else if(matchInfo.Winner == "Player2")
             {
-                Database.GiveMoney(matchInfo.Player2UID, matchInfo.Bet * 2);
+                Database.GiveMoney(matchInfo.Player2UID, winningAmount);
                 Database.SubractMoney(matchInfo.Player1UID, matchInfo.Bet);
             }
 

@@ -135,10 +135,8 @@ namespace Better_Server {
             Database.UpdateGameScore(matchID, player, score);
 
             if (Database.IsMatchOver(matchID)) {
-                ServerTCP.PACKET_MatchOver(matchID);
+                ServerTCP.PACKET_MatchOver(matchID,Database.GetMatchInfo(matchID));
             }
-
-            Console.WriteLine("HandleGameOver has not been fully implemented");
         }
 
         private static void HandleCreateLobby(int connectionID, byte[] data) {

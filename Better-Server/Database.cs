@@ -20,6 +20,9 @@ public class MatchInfo {
     public int Player2ID { set; get; }
     public string Player2UID { set; get; }
 
+    public int Player1Score { set; get; }
+    public int Player2Score { set; get; }
+
     public int Bet { set; get; }
 
     public string Winner { set; get; }
@@ -90,8 +93,10 @@ namespace Better_Server {
 
             if(player == "Player1") {
                 query = "UPDATE que SET player1_score=" + score + " , player1_gameOver=1 WHERE id=" + matchID;
+                Console.WriteLine("Player1 score has been updated");
             }else if(player == "Player2") {
                 query = "UPDATE que SET player2_score=" + score + " , player2_gameOver=1 WHERE id=" + matchID;
+                Console.WriteLine("Player2 score has been updated");
             }
 
             MySqlCommand cmd = new MySqlCommand(query, MySQL.mySQLSettings.connection);
@@ -159,11 +164,16 @@ namespace Better_Server {
 
             reader.Close();
 
+            Console.WriteLine("Player1 Score: " + player1_score);
+            Console.WriteLine("Player2 Score: " + player2_score);
+
             MatchInfo matchInfo = new MatchInfo();
             matchInfo.Player1UID = player1_uid;
             matchInfo.Player2UID = player2_uid;
             matchInfo.Player1ID = player1_conID;
             matchInfo.Player2ID = player2_conID;
+            matchInfo.Player1Score = player1_score;
+            matchInfo.Player2Score = player2_score;
             matchInfo.Bet = bet;
 
             if(player1_score > player2_score) {
