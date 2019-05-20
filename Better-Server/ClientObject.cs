@@ -45,9 +45,9 @@ namespace Better_Server {
 
                 ServerHandleData.HandleData(connectionID, newBytes);
                 myStream.BeginRead(recieveBuffer, 0, socket.ReceiveBufferSize, ReceiveCallback, null);
-            } catch (Exception) {
+            } catch (Exception e) {
+                Database.LogError(e.Message);
                 CloseConnection();
-                throw;
             }
         }
 

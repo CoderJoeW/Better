@@ -15,6 +15,36 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 0e01e08cbf46fea43bfcac9ec7c91186
   - enabled: 1
+    path: Assets/Store/Scenes/BasicStore.unity
+    guid: c4d4ddde282b1bd4bb1d21047e83f83d
+  - enabled: 1
     path: Assets/Scenes/Minigames/Snake.unity
     guid: b9612a722122bde49b8955bfa8b1672a
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Dodger.unity
+    guid: ed03cf6d7132f7e40b57796eabc524f9
+  - enabled: 1
+    path: Assets/Scenes/Minigames/FlappyBird.unity
+    guid: a47ed297377c34c4189cb44b03f65ca6
+  - enabled: 1
+    path: Assets/Scenes/preloader.unity
+    guid: aa9ae8ca94759684195f246ab1283e43
+  - enabled: 1
+    path: Assets/Scenes/UpdateAvailable.unity
+    guid: 5078d8db90e05594f95b8c0dc32a8a04
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 0e01e08cbf46fea43bfcac9ec7c91186
+  - enabled: 1
+    path: Assets/Store/Scenes/BasicStore.unity
+    guid: c4d4ddde282b1bd4bb1d21047e83f83d
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Snake.unity
+    guid: b9612a722122bde49b8955bfa8b1672a
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Dodger.unity
+    guid: ed03cf6d7132f7e40b57796eabc524f9
+  - enabled: 1
+    path: Assets/Scenes/Minigames/FlappyBird.unity
+    guid: a47ed297377c34c4189cb44b03f65ca6
   m_configObjects: {}

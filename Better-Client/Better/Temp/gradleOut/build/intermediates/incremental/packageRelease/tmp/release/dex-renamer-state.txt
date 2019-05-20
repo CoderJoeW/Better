@@ -1,0 +1,4 @@
+#Thu May 16 19:22:43 GMT 2019
+base.0=C\:\\Users\\coderjoe\\Desktop\\Better\\Better-Client\\Better\\Temp\\gradleOut\\build\\intermediates\\transforms\\dexMerger\\release\\0
+path.0=classes.dex
+renamed.0=classes.dex

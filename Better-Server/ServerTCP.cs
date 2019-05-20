@@ -20,8 +20,6 @@ namespace Better_Server {
             MySQL.mySQLSettings.password = "";
             MySQL.mySQLSettings.server = "localhost";
             MySQL.mySQLSettings.database = "better";
-
-            MySQL.ConnectToMySQL();
         }
 
         private static void InitializeServerSocket() {
@@ -105,6 +103,18 @@ namespace Better_Server {
             SendDataTo(connectionID, buffer.ToArray());
         }
 
+        public static void PACKET_SendUsersOnlineList(int connectionID, string data) {
+            ByteBuffer buffer = new ByteBuffer();
+
+            //Add package id
+            buffer.WriteInteger((int)ServerPackages.SSendUsersOnlineList);
+
+            //Send info
+            buffer.WriteString(data);
+
+            SendDataTo(connectionID, buffer.ToArray());
+        }
+
         public static void PACKET_PlayerJoined(int player1_conID,int player2_conID,int matchID,string game) {
             ByteBuffer buffer1 = new ByteBuffer();
 
@@ -161,6 +171,38 @@ namespace Better_Server {
             SendDataTo(matchInfo.Player1ID, buffer.ToArray());
             SendDataTo(matchInfo.Player2ID, buffer.ToArray());
 
+            //Remove the lobby from the que
+            Database.RemoveLobby(matchInfo.MatchID);
+        }
+
+        public static void PACKET_GetBalance(int connectionID,int balance) {
+            ByteBuffer buffer = new ByteBuffer();
+
+            //Package id
+            buffer.WriteInteger((int)ServerPackages.SGetBalance);
+
+            //balance
+            buffer.WriteInteger(balance);
+
+            SendDataTo(connectionID, buffer.ToArray());
+        }
+
+        public static void PACKET_UpdateAvailable(int connectionID) {
+            ByteBuffer buffer = new ByteBuffer();
+
+            //packageID
+            buffer.WriteInteger((int)ServerPackages.SUpdate);
+
+            SendDataTo(connectionID, buffer.ToArray());
+        }
+
+        public static void PACKET_NoUpdateAvailable(int connectionID) {
+            ByteBuffer buffer = new ByteBuffer();
+
+            //packageID
+            buffer.WriteInteger((int)ServerPackages.SNoUpdate);
+
+            SendDataTo(connectionID, buffer.ToArray());
         }
     }
 }

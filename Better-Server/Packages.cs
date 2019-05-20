@@ -3,8 +3,12 @@
     SAccountExist,
     SLobbyCreated,
     SSendLobbyList,
+    SSendUsersOnlineList,
     SPlayerJoined,
     SMatchOver,
+    SGetBalance,
+    SNoUpdate,
+    SUpdate,
 }
 
 public enum ClientPackages {
@@ -14,5 +18,11 @@ public enum ClientPackages {
     CGameOver,
     CCreateLobby,
     CRefreshLobbyList,
+    CRefreshUsersOnlineList,
     CJoinLobby,
+    CLeaveLobby,
+    CGetBalance,
+    CCheckVersion,
+    CPurchaseCompleted,
+    CDisconnectClient,
 }

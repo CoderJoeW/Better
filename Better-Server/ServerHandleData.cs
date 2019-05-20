@@ -15,7 +15,12 @@ namespace Better_Server {
             packetListener.Add((int)ClientPackages.CGameOver, HandleGameOver);
             packetListener.Add((int)ClientPackages.CCreateLobby, HandleCreateLobby);
             packetListener.Add((int)ClientPackages.CRefreshLobbyList, HandleRefreshLobbyList);
+            packetListener.Add((int)ClientPackages.CRefreshUsersOnlineList, HandleRefreshUsersOnlineList);
             packetListener.Add((int)ClientPackages.CJoinLobby, HandleJoinLobby);
+            packetListener.Add((int)ClientPackages.CLeaveLobby, HandleLeaveLobby);
+            packetListener.Add((int)ClientPackages.CGetBalance, HandleGetBalance);
+            packetListener.Add((int)ClientPackages.CCheckVersion, HandleCheckVersion);
+            packetListener.Add((int)ClientPackages.CDisconnectClient, HandleDisconnectClient);
         }
 
         public static void HandleData(int connectionID, byte[] data) {
@@ -88,7 +93,10 @@ namespace Better_Server {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteBytes(data);
             int packageID = buffer.ReadInteger();
+            string uid = buffer.ReadString();
             string msg = buffer.ReadString();
+
+            Database.UpdateOnlineStatus(uid, true);
 
             Console.WriteLine("Player {0} has sent following msg {1}", connectionID, msg);
         }
@@ -164,6 +172,17 @@ namespace Better_Server {
             ServerTCP.PACKET_SendLobbyList(connectionID, lobbyList);
         }
 
+        private static void HandleRefreshUsersOnlineList(int connectionID, byte[] data) {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteBytes(data);
+
+            int packageID = buffer.ReadInteger();
+
+            string userList = Database.GetUsersOnline();
+
+            ServerTCP.PACKET_SendUsersOnlineList(connectionID, userList);
+        }
+
         private static void HandleJoinLobby(int connectionID,byte[] data) {
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteBytes(data);
@@ -183,6 +202,78 @@ namespace Better_Server {
             string game = Database.GetMatchGame(matchID);
 
             ServerTCP.PACKET_PlayerJoined(player1_id, player2_id, matchID,game);
+        }
+
+        private static void HandleLeaveLobby(int connectionID,byte[] data) {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteBytes(data);
+
+            int packageID = buffer.ReadInteger();
+
+            string uid = buffer.ReadString();
+
+            int matchID = Database.GetLobbyID(uid);
+
+            Database.RemoveLobby(matchID);
+        }
+
+        private static void HandleGetBalance(int connectionID,byte[] data) {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteBytes(data);
+
+            int packageID = buffer.ReadInteger();
+            string uid = buffer.ReadString();
+
+            int balance = Database.GetBalance(uid);
+
+            ServerTCP.PACKET_GetBalance(connectionID, balance);
+        }
+
+        private static void HandleCheckVersion(int connectionID, byte[] data) {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteBytes(data);
+
+            int packageID = buffer.ReadInteger();
+            string version = buffer.ReadString();
+
+            if(version != Constants.CLIENT_VERSION) {
+                ServerTCP.PACKET_UpdateAvailable(connectionID);
+            } else {
+                ServerTCP.PACKET_NoUpdateAvailable(connectionID);
+            }
+        }
+
+        private static void HandlePurchaseCompleted(int connectionID, byte[] data) {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteBytes(data);
+
+            int packageID = buffer.ReadInteger();
+            string itemName = buffer.ReadString();
+            string uid = buffer.ReadString();
+
+            switch (itemName) {
+                case "One Dollar":
+                    Database.GiveMoney(uid, 1);
+                    break;
+                case "Five Dollars":
+                    Database.GiveMoney(uid, 5);
+                    break;
+                case "Fifty Dollars":
+                    Database.GiveMoney(uid, 50);
+                    break;
+            }
+        }
+
+        private static void HandleDisconnectClient(int connectionID, byte[] data) {
+            ByteBuffer buffer = new ByteBuffer();
+            buffer.WriteBytes(data);
+
+            int packageID = buffer.ReadInteger();
+            string uid = buffer.ReadString();
+
+            Database.UpdateOnlineStatus(uid, false);
+
+            Console.WriteLine("HandleDisconnectClient does not terminate connection");
         }
     }
 }

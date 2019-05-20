@@ -53,10 +53,11 @@ public class ClientTCP {
 		myStream.Write(buffer.ToArray(), 0, buffer.ToArray().Length);
 		buffer.Dispose();
 	}
-
+    
 	public static void PACKET_ThankYou(){
 		ByteBuffer buffer = new ByteBuffer ();
 		buffer.WriteInteger ((int)ClientPackages.CThankYouMsg);
+        buffer.WriteString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
 		buffer.WriteString ("Thank You");
 		SendData (buffer.ToArray ());
 	}
@@ -78,8 +79,74 @@ public class ClientTCP {
     public static void PACKET_GameOver(int score) {
         ByteBuffer buffer = new ByteBuffer();
         buffer.WriteInteger((int)ClientPackages.CGameOver);
-        buffer.WriteString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
+        buffer.WriteInteger(GameManager.Instance.matchID);
+        buffer.WriteString(GameManager.Instance.player);
         buffer.WriteInteger(score);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKET_CreateLobby(int bet,string game) {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CCreateLobby);
+        buffer.WriteString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
+        buffer.WriteInteger(bet);
+        buffer.WriteString(game);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKET_RefreshLobbyList() {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CRefreshLobbyList);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKET_RefresUsersOnlineList() {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CRefreshUsersOnlineList);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKET_JoinLobby(int lobbyID) {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CJoinLobby);
+        buffer.WriteString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
+        buffer.WriteInteger(lobbyID);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKET_LeaveLobby() {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CLeaveLobby);
+        buffer.WriteString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKET_GetBalance() {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CGetBalance);
+        buffer.WriteString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKET_CheckVersion(string version) {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CCheckVersion);
+        buffer.WriteString(version);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKET_PurchaseCompleted(string itemName) {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CPurchaseCompleted);
+        buffer.WriteString(itemName);
+        buffer.WriteString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
+        SendData(buffer.ToArray());
+    }
+
+    public static void PACKET_DisconnectFromServer() {
+        ByteBuffer buffer = new ByteBuffer();
+        buffer.WriteInteger((int)ClientPackages.CDisconnectClient);
+        buffer.WriteString(UnityEngine.SystemInfo.deviceUniqueIdentifier);
         SendData(buffer.ToArray());
     }
 }

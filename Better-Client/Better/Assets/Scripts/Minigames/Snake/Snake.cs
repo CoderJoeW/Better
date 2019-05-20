@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
-public class Snake : MonoBehaviour{
+public class Snake : Singleton<Snake>{
     //Current movement direction
     //Default moves to the right
     private Vector2 dir = Vector2.right;
@@ -18,22 +19,26 @@ public class Snake : MonoBehaviour{
     [SerializeField]
     private GameObject tailPrefab;
 
+    [SerializeField]
+    private GameObject gameOverScreen;
+
     private int snakeLength = 0;
 
     private void Start() {
         //Move the snake every 300ms
-        InvokeRepeating("Move", 0.05f, 0.05f);
+        InvokeRepeating("Move", 0.1f, 0.1f);
     }
 
     private void Update() {
         //Move in a new direction
-        if (Input.GetKey(KeyCode.RightArrow)) {
+
+        if (Input.GetKey(KeyCode.RightArrow) || SwipeManager.IsSwipingRight()) {
             dir = Vector2.right;
-        }else if (Input.GetKey(KeyCode.DownArrow)) {
+        } else if (Input.GetKey(KeyCode.DownArrow) || SwipeManager.IsSwipingDown()) {
             dir = -Vector2.up; //-up means down
-        }else if (Input.GetKey(KeyCode.LeftArrow)) {
+        } else if (Input.GetKey(KeyCode.LeftArrow) || SwipeManager.IsSwipingLeft()) {
             dir = -Vector2.right; //-right means left
-        }else if (Input.GetKey(KeyCode.UpArrow)) {
+        } else if (Input.GetKey(KeyCode.UpArrow) || SwipeManager.IsSwipingUp()) {
             dir = Vector2.up;
         }
     }
@@ -74,12 +79,13 @@ public class Snake : MonoBehaviour{
             //Get longer in next Move call
             ate = true;
 
+            snakeLength += 1;
+
             //Remove the food
             Destroy(collision.gameObject);
         } else {
             //Collided with tail or border
-            ClientTCP.PACKET_GameOver(snakeLength);
-            Debug.Log("GameOver functionality has not yet been implemented");
+            GameManager.Instance.GameOver(snakeLength);
         }
     }
 }
